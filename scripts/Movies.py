@@ -1,7 +1,9 @@
 import requests
 import Movie_id_scrape as movies
+import os
 
 url = "https://moviesdatabase.p.rapidapi.com/titles/x/titles-by-ids"
+secret_key = os.getenv('SECRET_KEY')
 
 movie_id_list = movies.get_movie_id()
 
@@ -22,7 +24,7 @@ while len(movie_id_list)/25 > runs:
 	querystring = {"idsList":query_movie_ids}
 
 	headers = {
-		"X-RapidAPI-Key": "f2e66c496cmsh0b2d77a1286a389p114e69jsn6e6dd548a048",
+		"X-RapidAPI-Key": secret_key,
 		"X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com"
 	}
 
