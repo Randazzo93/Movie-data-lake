@@ -12,24 +12,21 @@ def get_movie_id ():
     url = "http://www.imdb.com/search/title?num_votes=25000,&title_type=feature&view=simple&sort=num_votes,desc&page=1&ref_=adv_nxt"
     response = get(url)
     html_soup = BeautifulSoup(response.text, 'html.parser')
-    type(html_soup)
 
     num_films_text = html_soup.find_all('div', class_ = 'desc')
     num_films=re.search('of (\d.+) titles',str(num_films_text[0])).group(1)
     num_films=int(num_films.replace(',', ''))
-    print(num_films)
 
     num_pages = math.ceil(num_films/50)
-    print(num_pages)
 
     ids = []
     start_time = time()
     requests = 0
 
     # For every page in the interval`
-    for page in range(1,3):    
+    for page in range(1,2):    
         # Make a get request    
-        url = "http://www.imdb.com/search/title?num_votes=25000,&title_type=feature&view=simple&sort=num_votes,desc&page="+str(page)+"&ref_=adv_nxt"
+        url = "http://www.imdb.com/search/title?num_votes=25000,&title_type=feature&view=simple&sort=num_votes,desc&page={page}&ref_=adv_nxt"
         response = get(url)
 
         # Pause the loop
@@ -58,7 +55,7 @@ def get_movie_id ():
         movie_containers = page_html.find_all('div', class_ = 'lister-item mode-simple')
 
         # Scrape the ID 
-        for i in range(len(movie_containers)):
-            id = re.search('tt(\d+)/',str(movie_containers[i].a)).group(1)
+        for index in range(len(movie_containers)):
+            id = re.search('tt(\d+)/',str(movie_containers[index].a)).group(1)
             ids.append('tt' + id)
     return ids
