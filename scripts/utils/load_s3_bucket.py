@@ -16,5 +16,5 @@ def load_s3_bucket(csv_file):
 			aws_access_key_id=aws_key,
 			aws_secret_access_key= aws_secret)
 		
-	with open(csv_file, "rb") as file:
+	with open("csv/"+csv_file, "rb") as file:
 		s3.upload_fileobj(file, "myproject-imdb", csv_file)

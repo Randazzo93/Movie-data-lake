@@ -77,12 +77,10 @@ def gather_and_transform_data():
 def main():
 
 	gather_and_transform_data()
-	s3.load_s3_bucket("csv/movies.csv")
+	s3.load_s3_bucket("movies.csv")
 	sc.query_warehouse(f''' COPY INTO movies
                         FROM s3://myproject-imdb/movies.csv credentials=(AWS_KEY_ID='{aws_key}' AWS_SECRET_KEY='{aws_secret}')
-                        FILE_FORMAT = (type = csv field_optionally_enclosed_by='"' SKIP_HEADER = 1);''')
+                        FILE_FORMAT = (type = csv field_optionally_enclosed_by='"' SKIP_HEADER = 1)''', "movies")
 
 if __name__ == "__main__":
     main()
-
-	
