@@ -62,7 +62,7 @@ def gather_and_transform_data():
 	columns = ["id", "titleType.id", "titleType.isSeries", "titleType.isEpisode", "titleText.text",	"releaseDate.day",	"releaseDate.month", "releaseDate.year", "primaryImage.url"]
 	current_datetime = datetime.now()
 
-	movies_table = df[columns]
+	movies_table = pd.DataFrame(df,columns=columns)
 
 	#create release date and sync date fields
 	movies_table["RELEASE_DATE"] = movies_table[["releaseDate.year", "releaseDate.month", "releaseDate.day"]].apply(lambda x: '-'.join(x.values.astype(str)), axis="columns")
