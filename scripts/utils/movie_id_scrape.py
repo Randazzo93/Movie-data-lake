@@ -4,12 +4,15 @@ import re
 import math
 from time import time, sleep
 from random import randint
-from IPython.core.display import clear_output
+from IPython.display import clear_output
 from warnings import warn
 
+def get_url(start: int) -> str:
+    url = f"https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&view=simple&sort=num_votes,desc&start={start}&ref_=adv_nxt"
+    return url
 
 def get_movie_id ():
-    url = "http://www.imdb.com/search/title?num_votes=25000,&title_type=feature&view=simple&sort=num_votes,desc&page=1&ref_=adv_nxt"
+    url = "https://www.imdb.com/search/title/?title_type=feature&num_votes=25000,&view=simple&sort=num_votes,desc&start=0&ref_=adv_nxt"
     response = get(url)
     html_soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -22,11 +25,20 @@ def get_movie_id ():
     ids = []
     start_time = time()
     requests = 0
+    films = 0
 
     # For every page in the interval`
-    for page in range(1,2):    
-        # Make a get request    
-        url = "http://www.imdb.com/search/title?num_votes=25000,&title_type=feature&view=simple&sort=num_votes,desc&page={page}&ref_=adv_nxt"
+    for page in range(1,4):    
+        # Make a get request
+        if page == 1:
+            url = get_url(films)
+        elif page == 2:
+            films = films + 51
+            url = get_url(films)
+        else:
+            films = films + 50
+            url = get_url(films)
+            
         response = get(url)
 
         # Pause the loop

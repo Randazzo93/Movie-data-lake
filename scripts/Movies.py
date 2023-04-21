@@ -24,6 +24,7 @@ def request_data():
 
 	request_back = 0
 	runs = 0
+	combined_request=[]
 
 	#Make request to moviedb API (Most request that can be made at 1 time is 25)
 	while len(movie_id_list)/25 > runs:
@@ -47,10 +48,11 @@ def request_data():
 		response = requests.request("GET", url, headers=headers, params=query)
 
 		request_back += 25
+		# form json
+		movie_json = json.loads(response.text)
+		combined_request.append(movie_json)
 
-	# form json
-	movie_json = json.loads(response.text)
-	return movie_json
+	return combined_request
 
 def gather_and_transform_data():
 	movie_json = request_data()
@@ -60,7 +62,7 @@ def gather_and_transform_data():
 	columns = ["id", "titleType.id", "titleType.isSeries", "titleType.isEpisode", "titleText.text",	"releaseDate.day",	"releaseDate.month", "releaseDate.year", "primaryImage.url"]
 	current_datetime = datetime.now()
 
-	movies_table = df[columns]
+	movies_table = pd.DataFrame(df,columns=columns)
 
 	#create release date and sync date fields
 	movies_table["RELEASE_DATE"] = movies_table[["releaseDate.year", "releaseDate.month", "releaseDate.day"]].apply(lambda x: '-'.join(x.values.astype(str)), axis="columns")
