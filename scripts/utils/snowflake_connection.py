@@ -1,13 +1,14 @@
 import os
 import sqlalchemy as sql
+from sqlalchemy.dialects import registry
 from pathlib import Path
 from dotenv import load_dotenv
 from snowflake.connector.pandas_tools import pd_writer, write_pandas
 
-dotenv_path = Path('env/.env')
-load_dotenv(dotenv_path=dotenv_path)
-
 def query_warehouse(query, table):
+
+    dotenv_path = Path('env/.env')
+    load_dotenv(dotenv_path=dotenv_path)
 
     #get enviroment variables
     user_name = os.getenv('USER')
@@ -25,6 +26,8 @@ def query_warehouse(query, table):
 
     aws_key = os.getenv('AWS_KEY')
     aws_secret = os.getenv('AWS_SECRET')
+
+    registry.register('snowflake', 'snowflake.sqlalchemy', 'dialect')
 
     engine = sql.create_engine(snowflake_credentials)
     connect = engine.connect()

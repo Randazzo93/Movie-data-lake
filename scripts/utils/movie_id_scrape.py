@@ -28,7 +28,7 @@ def get_movie_id ():
     films = 0
 
     # For every page in the interval`
-    for page in range(1,10):    
+    for page in range(1,2):    
         # Make a get request
         if page == 1:
             url = get_url(films)

@@ -139,6 +139,7 @@ setproctitle==1.3.2
 six==1.16.0
 sniffio==1.3.0
 snowflake-connector-python==3.0.3
+snowflake-sqlalchemy==1.4.7
 soupsieve==2.4.1
 SQLAlchemy==1.4.47
 SQLAlchemy-JSONField==1.0.1.post0
