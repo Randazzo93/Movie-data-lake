@@ -17,5 +17,5 @@ dag = DAG(
 
 t1 = BashOperator(
     task_id='movie_table-to_snowflake',
-    bash_command='python ~/movie-data-lake/scripts/utils/movie_id_scrape.py',
+    bash_command='python ~/movie-data-lake/scripts/Movies.py',
     dag=dag)
